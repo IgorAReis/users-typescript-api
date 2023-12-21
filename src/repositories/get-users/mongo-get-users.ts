@@ -4,14 +4,14 @@ import { User } from "../../models/user";
 
 export class MongoGetUsersRepository implements IGetUsersRepository {
   async getUsers(): Promise<User[]> {
-    const users = await MongoClient.db.collection<User>('users').find({}).toArray();
-    return [
-      {
-        firstName: "Igor",
-        lastName: "Aleixo",
-        email: "igor@gmail.com",
-        password: "123",
-      },
-    ];
+    const users = await MongoClient.db
+      .collection<Omit<User, "id">>("users")
+      .find({})
+      .toArray();
+
+    return users.map(({ _id, ...rest }) => ({
+      ...rest,
+      id: _id.toHexString(),
+    }));
   }
 }

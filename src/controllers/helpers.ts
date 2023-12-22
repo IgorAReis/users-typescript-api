@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpResponse, HttpStatusCode } from "./protocols";
 
 export const ok = <T>(body: any): HttpResponse<T> => ({
